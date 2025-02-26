@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluación de Innovación y Tecnología en tu Escuela <br> By Gnius Club</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    #test-container {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 p-4">
+
+  <div id="presentation-screen" class="max-w-4xl mx-auto bg-white bg-opacity-80 rounded-lg shadow-md p-6">
+    <h2 class="text-xl font-bold mb-4 text-center text-blue-800">Bienvenido a la Evaluación de Innovación y Tecnología en tu
+      Escuela <br> By Gnius Club</h2>
+    <p class="text-gray-700 mb-4">La innovación y la integración de nuevas tecnologías en la educación son elementos
+      clave para preparar a los estudiantes para los desafíos del siglo XXI. En un mundo donde la digitalización avanza a
+      un ritmo acelerado, las instituciones educativas deben evolucionar constantemente, incorporando herramientas
+      tecnológicas que potencien el aprendizaje, fomenten el pensamiento crítico y promuevan el desarrollo de habilidades
+      esenciales para el futuro. Evaluar el nivel de implementación de estas estrategias no solo permite conocer el estado
+      actual de la escuela, sino que también abre la puerta a oportunidades de mejora, asegurando una educación más
+      inclusiva, dinámica y eficiente.</p>
+    <p class="text-gray-700 mb-4">Este test ha sido diseñado a partir de referencias globales en educación e innovación,
+      tomando en cuenta fuentes de prestigio como The Futures of Education, Global Education Monitoring Report, Innovative
+      Approaches to Remote Learning in Emergencies, Learning Passport, World Development Report, entre otras. Cada una de
+      estas categorías aborda aspectos clave como la alfabetización digital, la integración de TIC en el currículo, el
+      aprendizaje autónomo y colaborativo, la inclusión digital y la innovación pedagógica. Gracias a esta evaluación, es
+      posible identificar fortalezas y áreas de oportunidad en la escuela, proporcionando un diagnóstico integral basado en
+      los estándares educativos más relevantes a nivel mundial.</p>
+    <button id="start-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Comenzar</button>
+  </div>
+
+  <div class="max-w-4xl mx-auto bg-white bg-opacity-80 rounded-lg shadow-md p-6">
+    <h1 class="text-2xl font-bold mb-4 text-center text-blue-800"> Evaluación de Innovación y Tecnología en tu
+        Escuela<br> By Gnius Club</h1>
+    <div id="test-container">
+      <div id="timer" class="text-center mb-4 text-gray-700">Tiempo: <span id="time">00:00</span></div>
+      <div id="question-container"></div>
+      <div id="options-container" class="flex space-x-4 justify-center mt-4"></div>
+    </div>
+    <div id="result-container" style="display: none;">
+      <h2 class="text-xl font-bold mb-4 text-center text-green-600">Resultados de la Evaluación 📊</h2>
+      <div id="result-text" class="mb-4 text-center"></div>
+      <div id="level-details" class="mt-4 text-gray-700"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "¿En qué medida la escuela demuestra que estudiantes y docentes usan herramientas digitales de forma crítica y creativa?", category: "Alfabetización digital" },
+      { question: "¿En qué grado se aplican estrategias innovadoras para enfrentar retos educativos?", category: "Pensamiento crítico y resolución de problemas" },
+      { question: "¿Con qué frecuencia se desarrollan enfoques didácticos que integren tecnologías emergentes?", category: "Creatividad e innovación pedagógica" },
+      { question: "¿Hasta qué punto los alumnos gestionan su propio aprendizaje y colaboran efectivamente?", category: "Aprendizaje autónomo y colaborativo" },
+      { question: "¿Cómo se planifica e implementa el uso de tecnologías en las lecciones?", category: "Integración efectiva de TIC en el currículo" },
+      { question: "¿En qué medida se adaptan las metodologías tradicionales a formatos digitales?", category: "Competencia en pedagogía digital" },
+      { question: "¿Con qué frecuencia se utilizan datos para tomar decisiones que mejoren el aprendizaje?", category: "Gestión de datos y análisis educativo" },
+      { question: "¿Hasta qué punto se garantiza que todos los estudiantes tengan acceso a recursos tecnológicos?", category: "Accesibilidad e inclusión digital" },
+      { question: "¿Qué tan eficaz es la escuela en el diseño e implementación de clases a distancia?", category: "Competencia en enseñanza remota" },
+      { question: "¿En qué grado se utilizan herramientas (mensajería, videoconferencia) para mantener el contacto educativo?", category: "Comunicación digital asertiva" },
+      { question: "¿Cómo de bien se ajustan las estrategias educativas ante contextos de crisis?", category: "Adaptabilidad y resiliencia" },
+      { question: "¿Con qué frecuencia se desarrollan y adaptan materiales para el entorno virtual?", category: "Creación y curaduría de contenidos digitales" },
+      { question: "¿En qué medida se utilizan plataformas digitales para facilitar el acceso a recursos educativos?", category: "Competencia en herramientas de aprendizaje digital" },
+      { question: "¿Qué tan bien se fomenta el trabajo en red y la conexión entre las comunidades educativas?", category: "Colaboración y conectividad" },
+      { question: "¿Hasta qué punto se adapta el contenido educativo a las necesidades individuales de los estudiantes?", category: "Personalización del aprendizaje" },
+      { question: "¿En qué grado se promueve que los estudiantes gestionen su propio aprendizaje mediante recursos digitales?", category: "Autonomía en el aprendizaje" },
+      { question: "¿Cómo se usan sistemas digitales para adaptar el contenido al ritmo del alumno?", category: "Integración de tecnología para el aprendizaje personalizado" },
+      { question: "¿Qué tan capacitados están los maestros en el uso de herramientas digitales en su práctica?", category: "Competencia docente en TIC" },
+      { question: "¿Con qué frecuencia se implementan sistemas de evaluación basados en datos?", category: "Uso de plataformas de evaluación digital" },
+      { question: "¿En qué medida se interpretan indicadores para ajustar estrategias de enseñanza?", category: "Gestión y análisis de datos educativos" },
+      { question: "¿Qué tan efectivamente se usan redes y dispositivos para conectar a la comunidad educativa?", category: "Conectividad y comunicación digital" },
+      { question: "¿En qué grado se incorporan enfoques disruptivos y experimentales en la enseñanza?", category: "Innovación en metodologías de enseñanza" },
+      { question: "¿Qué tan bien se administran las aulas digitales y plataformas colaborativas?", category: "Capacidades en gestión de entornos virtuales" },
+      { question: "¿Hasta qué punto se fomenta el trabajo en equipo y la co-creación de conocimiento mediante tecnología?", category: "Habilidades de colaboración en línea" },
+      { question: "¿En qué grado se aplican procesos digitales para resolver problemas?", category: "Competencia en pensamiento computacional" },
+      { question: "¿Qué tan frecuentemente se desarrollan soluciones originales mediante herramientas digitales?", category: "Creatividad y uso innovador de las TIC" },
+      { question: "¿Cómo de bien se trabaja en entornos virtuales y proyectos en red?", category: "Habilidades de colaboración digital" },
+      { question: "¿En qué medida se comprenden y aplican los derechos, responsabilidades y la ética en el uso de la tecnología?", category: "Ciudadanía digital" },
+      { question: "¿Qué tan eficaz es la capacidad de los alumnos para gestionar su propio proceso de aprendizaje digital?", category: "Aprendizaje autónomo y auto-regulado" },
+      { question: "¿En qué medida se favorece la colaboración, comunicación y empatía a través de medios tecnológicos?", category: "Competencias interpersonales en entornos digitales" },
+      { question: "¿Qué tan flexible es la institución para incorporar nuevas tecnologías y metodologías emergentes?", category: "Adaptabilidad a contextos cambiantes" },
+      { question: "¿Hasta qué punto se interpretan y aplican indicadores para mejorar la enseñanza?", category: "Uso de datos para la toma de decisiones educativas" },
+      { question: "¿Qué tan efectivamente se asegura el acceso a tecnologías en entornos con recursos limitados?", category: "Inclusión digital" },
+      { question: "¿En qué grado se implementan soluciones que se ajustan a diversos contextos?", category: "Adaptabilidad tecnológica" },
+      { question: "¿Hasta qué punto se desarrollan recursos que se adaptan a las necesidades de todos los estudiantes?", category: "Competencia en diseño universal para el aprendizaje" },
+      { question: "¿Qué tan innovadoras son las estrategias que utilizan tecnología para transformar la experiencia de aprendizaje?", category: "Innovación en estrategias pedagógicas" },
+      { question: "¿En qué medida se diseñan planes de acción basados en evidencias para integrar tecnología?", category: "Planificación estratégica de integración tecnológica" },
+      { question: "¿Qué tan efectivamente se capacita al profesorado en nuevas metodologías y herramientas digitales?", category: "Desarrollo profesional docente en innovación" },
+      { question: "¿En qué grado se utilizan herramientas digitales para evaluar y mejorar el desempeño académico?", category: "Evaluación y retroalimentación digital" },
+      { question: "¿Qué tan bien se coordinan y ejecutan iniciativas que integren tecnología en el aula?", category: "Gestión de proyectos de innovación educativa" },
+      { question: "¿En qué medida se impulsa el cambio y la adopción de nuevas estrategias en la enseñanza?", category: "Liderazgo en innovación educativa" },
+      { question: "¿Qué tan integrado está el contenido digital y las metodologías basadas en tecnología en el currículo?", category: "Diseño curricular digital" },
+      { question: "¿Hasta qué punto se evalúan y aplican nuevas herramientas tecnológicas en el ámbito académico?", category: "Investigación y desarrollo en EdTech" },
+      { question: "¿Qué tan bien se comparten prácticas y recursos a través de redes globales?", category: "Colaboración internacional en proyectos digitales" },
+      { question: "¿En qué grado se favorece la interacción y colaboración entre pares de diferentes contextos culturales?", category: "Comunicación intercultural digital" },
+      { question: "¿Qué tan eficaz es la coordinación de equipos yproyectos a través de plataformas digitales?", category: "Gestión de entornos colaborativos virtuales" },
+      { question: "¿Hasta qué punto se ajustan las estrategias en función de experiencias internacionales?", category: "Adaptabilidad y flexibilidad en la innovación" },
+      { question: "¿Qué tan efectivamente se utilizan herramientas digitales para facilitar la creación colaborativa de contenido?", category: "Uso de tecnologías para la co-creación de conocimiento" },
+      { question: "¿En qué medida se utilizan herramientas digitales para analizar y resolver problemas globales?", category: "Pensamiento crítico e internacional" },
+      { question: "¿Qué tan frecuentemente se generan ideas innovadoras y se expresan mediante medios tecnológicos?", category: "Creatividad y reflexión digital" },
+      { question: "¿En qué grado se trabaja efectivamente en entornos multiculturales a través de plataformas digitales?", category: "Colaboración y comunicación global" },
+      { question: "¿Qué tan bien se fomenta la gestión autónoma del aprendizaje en contextos tecnológicos?", category: "Autonomía en el aprendizaje digital" },
+      { question: "¿Hasta qué punto se utilizan software, aplicaciones y plataformas interactivas en las clases?", category: "Integración de herramientas digitales en el aula" },
+      { question: "¿Qué tan efectivamente se combinan investigación, tecnología y colaboración en proyectos?", category: "Aprendizaje basado en proyectos digitales" },
+      { question: "¿Qué tan rápidamente y eficazmente se mide el aprendizaje mediante herramientas digitales?", category: "Evaluación digital y retroalimentación en tiempo real" },
+      { question: "¿En qué medida se utilizan herramientas colaborativas para facilitar el trabajo en equipo?", category: "Desarrollo de competencias de comunicación en entornos virtuales" },
+      { question: "¿Qué tan bien se estructuran programas educativos que integren contenidos multimedia?", category: "Diseño de currículos digitales" },
+      { question: "¿En qué grado se utilizan plataformas y recursos digitales que promuevan la participación activa?", category: "Implementación de entornos de aprendizaje interactivos" },
+      { question: "¿Qué tan efectivamente se desarrollan competencias en el uso de herramientas tecnológicas entre los docentes?", category: "Capacitación docente en TIC" },
+      { question: "¿Cómo se mide el impacto de la innovación curricular a través de indicadores y análisis?", category: "Evaluación de la efectividad de las tecnologías educativas" },
+      { question: "¿En qué medida se coordinan e implementan las herramientas digitales en el aula?", category: "Planificación y gestión de la integración tecnológica" },
+      { question: "¿Qué tan eficaz es la selección, modificación y reutilización de materiales educativos en formatos digitales?", category: "Curación y adaptación de recursos digitales" },
+      { question: "¿En qué grado se promueve la capacitación permanente en el uso de TIC para docentes?", category: "Formación continua en competencias digitales" },
+      { question: "¿Cómo se mide el grado de integración y su impacto en el aprendizaje?", category: "Evaluación y seguimiento del uso de tecnologías" },
+      { question: "¿En qué medida los alumnos utilizan tecnologías de información para resolver problemas?", category: "Alfabetización digital en estudiantes" },
+      { question: "¿Qué tan bien aplican los estudiantes lógica y procesos digitales en su aprendizaje?", category: "Competencias en pensamiento computacional" },
+      { question: "¿En qué grado se usan entornos virtuales para potenciar el rendimiento académico?", category: "Innovación en la gestión del aprendizaje" },
+      { question: "¿Qué tan eficaz es la medición del impacto de las TIC en el rendimiento escolar?", category: "Evaluación digital y análisis comparativo" },
+      { question: "¿Hasta qué punto se implementan estrategias pedagógicas basadas en tecnología?", category: "Competencia en metodologías de enseñanza digital" },
+      { question: "¿Qué tan bien se gestionan las aulas virtuales y los recursos en línea?", category: "Uso efectivo de plataformas de e-learning" },
+      { question: "¿En qué grado se favorece el trabajo en equipo mediante herramientas virtuales?", category: "Habilidades de colaboración digital" },
+      { question: "¿Cómo se mide la efectividad de las innovaciones tecnológicas en el aprendizaje?", category: "Evaluación de la calidad del aprendizaje digital" },
+      { question: "¿Qué tan bien gestionan los estudiantes su propio aprendizaje a través de plataformas abiertas?", category: "Autonomía y autoaprendizaje en entornos digitales" },
+      { question: "¿En qué medida se identifican y utilizan contenidos y herramientas en línea?", category: "Competencia en el uso de recursos educativos digitales" },
+      { question: "¿Qué tan eficaz es el trabajo colaborativo en proyectos a distancia?", category: "Colaboración en entornos virtuales" },
+      { question: "¿Hasta qué punto se integran los recursos abiertos en la práctica educativa?", category: "Adaptabilidad a metodologías de educación abierta" },
+      { question: "¿Qué tan efectivamente se organizan y facilitan las clases en línea?", category: "Gestión de aulas virtuales y enseñanza a distancia" },
+      { question: "¿En qué grado se logra mantener el compromiso de los estudiantes en entornos remotos?", category: "Comunicación digital efectiva" },
+      { question: "¿Qué tan bien se aplican metodologías y herramientas que favorecen la educación a distancia?", category: "Implementación de estrategias de e-learning" },
+      { question: "¿Cómo se mide el impacto y la calidad del aprendizaje en contextos no presenciales?", category: "Evaluación y seguimiento en entornos digitales" }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let startTime;
+    let timerInterval;
+
+    function startTimer() {
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      const elapsedTime = Date.now() - startTime;
+      const minutes = Math.floor(elapsedTime / 60000);
+      const seconds = Math.floor((elapsedTime % 60000) / 1000);
+      document.getElementById('time').textContent = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+    }
+
+    function displayQuestion() {
+      if (currentQuestion < questions.length) {
+        const questionDiv = document.createElement('div');
+        questionDiv.innerHTML = '<p class="font-semibold text-lg text-gray-800">' + (currentQuestion + 1) + '. ' + questions[currentQuestion].question + ' (' + questions[currentQuestion].category + ')</p>';
+        document.getElementById('question-container').innerHTML = '';
+        document.getElementById('question-container').appendChild(questionDiv);
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const optionBtn = document.createElement('button');
+          optionBtn.textContent = i;
+          optionBtn.classList.add('bg-blue-500', 'hover:bg-blue-700', 'text-white', 'font-bold', 'py-2', 'px-4',
+            'rounded');
+          optionBtn.value = i;
+          optionBtn.addEventListener('click', () => {
+            score += i;currentQuestion++;
+            displayQuestion();
+          });
+          optionsContainer.appendChild(optionBtn);
+        }
+      } else {
+        clearInterval(timerInterval);
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('test-container').style.display = 'none';
+      document.getElementById('result-container').style.display = 'block';
+      let level, analysis, suggestions;
+
+      if (score <= 80) {
+        level = "1\nEn la era analógica";
+        analysis = "La institución se encuentra en un punto de partida; la integración de tecnologías es muy limitada y casi inexistente en la práctica diaria. <br> Los procesos pedagógicos se mantienen en un formato tradicional, sin aprovechar las ventajas de la digitalización.";
+        suggestions = "Implementar programas básicos de formación en TIC para docentes y estudiantes. <br>  Invertir en infraestructura mínima para conectar aulas (computadoras, internet básico). <br>  Empezar a incorporar herramientas digitales de forma puntual (por ejemplo, presentaciones digitales y correo electrónico institucional).";
+      } else if (score <= 160) {
+        level = "2\nExplorador digital";
+        analysis = "La institución muestra curiosidad por el mundo digital y realiza algunos experimentos en el aula; <br> sin embargo, la integración de las TIC es incipiente y no existe una estrategia sistematizada en toda la organización.";
+        suggestions = "Sistematizar y planificar iniciativas digitales, definiendo un plan estratégico para la integración de TIC en el currículo. <br> Ampliar la capacitación docente y promover pilotos de proyectos digitales. <br> Evaluar y ajustar los experimentos para consolidar las primeras buenas prácticas.";
+      } else if (score <= 240) {
+        level = "3\nNavegante en aguas digitales";
+        analysis = "La escuela utiliza de manera consistente plataformas y recursos digitales, favoreciendo el aprendizaje autónomo y colaborativo. <br> Existen estrategias de integración de TIC, aunque aún hay áreas que se pueden optimizar para alcanzar una mayor efectividad.";
+        suggestions = "Consolidar la formación continua en competencias digitales para docentes. <br> Mejorar el acceso a tecnologías más avanzadas y personalizar el aprendizaje mediante datos. <br> Fortallecer la evaluación digital y crear procesos de retroalimentación basados en indicadores de impacto.";
+      } else if (score <= 320) {
+        level = "4\nInnovador en pleno auge";
+        analysis = "La institución se destaca por la adopción de enfoques disruptivos y la implementación eficaz de herramientas digitales en todos los procesos: desde el diseño curricular hasta la evaluación y la comunicación. <br> La escuela ha logrado un notable avance en el uso estratégico de las TIC.";
+        suggestions = "Potenciar proyectos de innovación que involucren a toda la comunidad educativa. <br> Consolidar alianzas para el intercambio de experiencias y mejores prácticas. <br> Implementar sistemas avanzados de análisis y gestión de datos para continuar escalando el impacto digital.";
+      } else {
+        level = "5\nVanguardista digital y transformador";
+        analysis = "La institución lidera la transformación digital: la tecnología está plenamente integrada en el currículo, la evaluación y la colaboración, y se utiliza de forma estratégica para personalizar y mejorar el aprendizaje. <br> Su enfoque digital es ejemplar y sienta un estándar para otras escuelas.";
+        suggestions = "Mantener la actualización constante de herramientas y metodologías, promoviendo la innovación continua. <br> Liderar iniciativas de colaboración internacional y redes de aprendizaje. <br> Fomentar una cultura de análisis de datos y experimentación para seguir optimizando la experiencia educativa.";
+      }
+
+      const formattedAnalysis = analysis.replace(/\. /g, ". \n");
+      const formattedSuggestions = suggestions.replace(/\. /g, ". \n");
+
+      document.getElementById('result-text').textContent = `Tu puntaje es: ${score} de ${questions.length * 5}.`;
+      document.getElementById('level-details').innerHTML = `
+                <p class="text-xl font-bold text-center">Nivel: ${level}</p>
+                <p class="mt-4">${formattedAnalysis}</p>
+                <p class="mt-4 font-semibold">Sugerencias:</p>
+                <p class="mt-2">${formattedSuggestions}</p>
+            `;
+    }
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+      document.getElementById('presentation-screen').style.display = 'none';
+      document.getElementById('test-container').style.display = 'block';
+      startTimer();
+    });
+
+    displayQuestion();
+  </script>
+</body>
+
+</html>
